@@ -1,0 +1,14 @@
+<section class="profile">
+  <h2>{{user.local.email}}</h2>
+  {{#if user.tweets}}
+    <ul class="tweets">
+      {{#each user.tweets}}
+        <li class="card">
+           {{> 'tweet'}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No Tweets yet</p>
+  {{/if}}
+</section>
