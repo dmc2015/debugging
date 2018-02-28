@@ -2,12 +2,15 @@ const User = require("../models/User");
 const Tweet = require("../models/Tweet");
 const bcrypt = require("bcrypt-nodejs");
 
+const createPassword = password =>
+  bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+
 User.find({}).remove(() => {
   Tweet.find({}).remove(() => {
     let bugs = User.create({
       local: {
         email: "bugsbunny@gmail.com",
-        password: bcrypt.hashSync("bugsbunny", bcrypt.genSaltSync(8), null)
+        password: createPassword("bugsbunny")
       }
     }).then(user => {
       Promise.all([
@@ -31,7 +34,7 @@ User.find({}).remove(() => {
     let daffy = User.create({
       local: {
         email: "daffyduck@gmail.com",
-        password: bcrypt.hashSync("daffyduck", bcrypt.genSaltSync(8), null)
+        password: createPassword("daffyduck")
       }
     }).then(user => {
       Promise.all([
@@ -55,7 +58,7 @@ User.find({}).remove(() => {
     let elmer = User.create({
       local: {
         email: "elmerfudd@gmail.com",
-        password: bcrypt.hashSync("elmerfudd", bcrypt.genSaltSync(8), null)
+        password: createPassword("elmerfudd")
       }
     }).then(user => {
       Promise.all([
