@@ -1,6 +1,23 @@
-const Tweet = require('../models/Tweet');
+const { Tweet, Comment } = require("../models/Tweet");
 
 module.exports = {
+  show: (req, res) => {
+    Tweet.findOne({ _id: req.params.id })
+      .populate("author")
+      .exec(function(err, tweet) {
+        Comment.populate(tweet.comments, { path: "author" }, function(
+          err,
+          comments
+        ) {
+          tweet.comments = comments;
+          console.log(tweet);
+          res.render("tweet/show", tweet);
+        });
+      });
+  },
+  new: (req, res) => {
+    res.render("tweet/new");
+  },
   create: (req, res) => {
     Tweet.create({
       content: req.body.tweet.content,
@@ -12,19 +29,23 @@ module.exports = {
       });
     });
   },
-  new: (req, res) => {
-    res.render('tweet/new');
-  },
-  show: (req, res) => {
+  update: (req, res) => {
+    let { content } = req.body;
     Tweet.findOne({ _id: req.params.id }).then(tweet => {
-      res.render('tweet/show', tweet);
+      tweet.comments.push({
+        content,
+        author: req.user._id
+      });
+      tweet.save(err => {
+        res.redirect(`/tweet/${tweet._id}`);
+      });
     });
   },
   requireAuth: function(req, res, next) {
     if (req.isAuthenticated()) {
       next();
     } else {
-      res.redirect('/');
+      res.redirect("/");
     }
   }
 };

@@ -1,37 +1,37 @@
-const User = require('../models/User');
-const Tweet = require('../models/Tweet');
-const passport = require('passport');
+const User = require("../models/User");
+const { Tweet } = require("../models/Tweet");
+const passport = require("passport");
 
 module.exports = {
   show: (req, res) => {
     User.findOne({ _id: req.params.id })
       .populate({
-        path: 'tweets',
+        path: "tweets",
         options: { limit: 5, sort: { createdAt: -1 } }
       })
       .then(user => {
-        res.render('user/show', { user });
+        res.render("user/show", { user });
       });
   },
   login: (req, res) => {
-    res.render('user/login', { message: req.flash('signupMessage') });
+    res.render("user/login", { message: req.flash("signupMessage") });
   },
   createLogin: (req, res) => {
-    const login = passport.authenticate('local-login', {
-      successRedirect: '/',
-      failureRedirect: '/login',
+    const login = passport.authenticate("local-login", {
+      successRedirect: "/",
+      failureRedirect: "/login",
       failureFlash: true
     });
 
     return login(req, res);
   },
   signUp: (req, res) => {
-    res.render('user/signup', { message: req.flash('signupMessage') });
+    res.render("user/signup", { message: req.flash("signupMessage") });
   },
   createSignUp: (req, res) => {
-    const signup = passport.authenticate('local-signup', {
-      successRedirect: '/',
-      failureRedirect: '/signup',
+    const signup = passport.authenticate("local-signup", {
+      successRedirect: "/",
+      failureRedirect: "/signup",
       failureFlash: true
     });
 
@@ -39,6 +39,6 @@ module.exports = {
   },
   logout: (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect("/");
   }
 };

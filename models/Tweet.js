@@ -1,7 +1,7 @@
 const mongoose = require("../db/connection");
 const Schema = mongoose.Schema;
 
-const Tweet = new Schema({
+const Comment = new Schema({
   content: String,
   createdAt: {
     type: Date,
@@ -13,4 +13,20 @@ const Tweet = new Schema({
   }
 });
 
-module.exports = mongoose.model("Tweet", Tweet);
+const Tweet = new Schema({
+  content: String,
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
+  comments: [Comment]
+});
+
+module.exports = {
+  Tweet: mongoose.model("Tweet", Tweet),
+  Comment: mongoose.model("Comment", Comment)
+};
