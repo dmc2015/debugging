@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
+const methodOverride = require("method-override");
 
 const app = express();
 require("./config/passport")(passport);
@@ -13,6 +14,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "hbs");
+app.use(methodOverride("_method"));
 app.use(
   session({
     secret: "EXPRESS-IS-AWESOME",
@@ -24,16 +26,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-});
-app.use("/", require("./controllers/application.js"));
-app.use("/user", require("./controllers/user"));
-app.use("/tweet", require("./controllers/tweet"));
-
-app.all("*", (req, res) => {
-  res.status(400).send();
-});
+app.use(require("./routes/index.js"));
 
 app.listen(3000, () => console.log("server is running"));

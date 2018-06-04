@@ -1,9 +1,12 @@
-<div class="card-content">
-  <p class="card-title">
-    {{ content }}
-  </p>
-</div>
-<div class="card-action">
-  <a href="/user/{{ author.id }}" class="">{{ author.local.email }}</a>
-  <span class="tweet__date">{{ createdAt }}</span>
+<div class="card">
+  <div class="card-content">
+    <a class="card-title" href="/tweet/{{id}}">
+      {{ content }}
+    </a>
+  </div>
+  <div class="card-action">
+    <a href="/user/{{ author.id }}" class="">{{ author.local.email }}</a>
+    <span class="tweet__date">{{ createdAt }}</span>
+    <span class="tweet_comments">{{ comments.length }} Comments</span>
+  </div>
 </div>
