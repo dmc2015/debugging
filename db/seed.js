@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const Tweet = require("../models/Tweet");
+const { Tweet } = require("../models/Tweet");
 const bcrypt = require("bcrypt-nodejs");
 
 const createPassword = password =>
