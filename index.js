@@ -28,4 +28,12 @@ app.use(passport.session());
 
 app.use(require("./routes/index.js"));
 
-app.listen(3000, () => console.log("server is running"));
+
+app.set('port', process.env.PORT || 3000)
+
+app.listen(app.get('port'), () => {
+  console.log(`✅ PORT: ${app.get('port')} 🌟`)
+})
+
+
+// app.listen(3000, () => console.log("server is running"));
